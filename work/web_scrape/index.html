@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>Demo</title>
+
+    <style>
+        div.moonboard {
+            position: fixed;
+            top: 15%;
+            right: 25%;
+        }
+
+    </style>
+
+<style type="text/css">
+    .form-style-9{
+        max-width: 50%;
+        background: #FAFAFA;
+        padding: 30px;
+        margin: 20px auto;
+        box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
+        border-radius: 10px;
+        border: 6px solid #305A72;
+    }
+    .form-style-9 ul{
+        padding:0;
+        margin:0;
+        list-style:none;
+    }
+    .form-style-9 ul li{
+        display: block;
+        margin-bottom: 10px;
+        min-height: 35px;
+    }
+    .form-style-9 ul li  .field-style{
+        box-sizing: border-box; 
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box; 
+        padding: 8px;
+        outline: none;
+        border: 1px solid #B0CFE0;
+        -webkit-transition: all 0.30s ease-in-out;
+        -moz-transition: all 0.30s ease-in-out;
+        -ms-transition: all 0.30s ease-in-out;
+        -o-transition: all 0.30s ease-in-out;
+    
+    }.form-style-9 ul li  .field-style:focus{
+        box-shadow: 0 0 5px #B0CFE0;
+        border:1px solid #B0CFE0;
+    }
+    .form-style-9 ul li .field-split{
+        width: 49%;
+    }
+    .form-style-9 ul li .field-full{
+        width: 100%;
+    }
+    .form-style-9 ul li input.align-left{
+        float:left;
+    }
+    .form-style-9 ul li input.align-right{
+        float:right;
+    }
+    .form-style-9 ul li textarea{
+        width: 100%;
+        height: 100px;
+    }
+    .form-style-9 ul li input[type="button"], 
+    .form-style-9 ul li input[type="submit"] {
+        -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
+        -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
+        box-shadow: inset 0px 1px 0px 0px #3985B1;
+        background-color: #216288;
+        border: 1px solid #17445E;
+        display: inline-block;
+        cursor: pointer;
+        color: #FFFFFF;
+        padding: 8px 18px;
+        text-decoration: none;
+        font: 12px Arial, Helvetica, sans-serif;
+    }
+    .form-style-9 ul li input[type="button"]:hover, 
+    .form-style-9 ul li input[type="submit"]:hover {
+        background: linear-gradient(to bottom, #2D77A2 5%, #337DA8 100%);
+        background-color: #28739E;
+    }
+
+    </style>
+
+    <style>
+    div.info_box {
+        border: 1px solid  #17445E;
+        outline: 2px solid #2D77A2;
+        text-align:center;
+        align-self: center;
+        position:relative;
+    width:50%;
+    left:25%;
+    top:50%;
+}
+    </style>
+
+</head>
+
+<body>
+<!-- Required JS packages for this project-->
+<script src="jquery-3.3.1.min.js"></script>
+<script src="require.js"></script>
+
+<!--Create empty form element  -->
+<header> 
+<div class = "info_box"> Below are a set of randomly selected holds from the moonboard! Your task is to classify the hold type into as one of available options using the provided grid location and accompanying moonboard image. If there is some ambiguity, select the option that you feel is most accurate.</div>
+</header>
+<div id = "form_submit1">
+    <form id = "form_submit" name = "submit_to_sheets" class = form-style-9 onSubmit="alert('Thanks for your help! Refresh the page if you would like to classify more holds. - Max');">
+    </form>
+</div>
+
+<!-- JS function to fill form element with 20 hold type questions forms -->
+<script>
+        // Establish file name to hold mapping with two lists and a dict to link elements
+        var files = ['1.png', '10.png', '100.png', '101.png', '102.png', '103.png', '104.png', '105.png', '106.png', '107.png', '108.png', '109.png', '11.png', '110.png', '111.png', '112.png', '113.png', '114.png', '115.png', '116.png', '117.png', '118.png', '119.png', '12.png', '120.png', '121.png', '122.png', '123.png', '124.png', '125.png', '126.png', '127.png', '128.png', '129.png', '13.png', '130.png', '131.png', '132.png', '133.png', '134.png', '135.png', '136.png', '137.png', '138.png', '139.png', '14.png', '140.png', '141.png', '142.png', '143.png', '144.png', '145.png', '146.png', '147.png', '148.png', '149.png', '15.png', '16.png', '17.png', '18.png', '19.png', '2.png', '20.png', '21.png', '22.png', '23.png', '24.png', '25.png', '26.png', '27.png', '28.png', '29.png', '3.png', '30.png', '31.png', '32.png', '33.png', '34.png', '35.png', '36.png', '37.png', '38.png', '39.png', '4.png', '40.png', '5.png', '50.png', '51.png', '52.png', '53.png', '54.png', '55.png', '56.png', '57.png', '58.png', '59.png', '6.png', '60.png', '61.png', '62.png', '63.png', '64.png', '65.png', '66.png', '67.png', '68.png', '69.png', '7.png', '70.png', '71.png', '72.png', '73.png', '74.png', '75.png', '76.png', '77.png', '78.png', '79.png', '8.png', '80.png', '81.png', '82.png', '83.png', '84.png', '85.png', '86.png', '87.png', '88.png', '89.png', '9.png', '90.png', '91.png', '92.png', '93.png', '94.png', '95.png', '96.png', '97.png', '98.png', '99.png']
+        var numWords = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twenty_one", "twenty_two", "twenty_three", "twenty_four", "twenty_five", "twenty_six", "twenty_seven", "twenty_eight", "twenty_nine", "thirty", "thirty_one", "thirty_two", "thirty_three", "thirty_four", "thirty_five", "thirty_six", "thirty_seven", "thirty_eight", "thirty_nine", "forty", "fifty", "fifty_one", "fifty_two", "fifty_three", "fifty_four", "fifty_five", "fifty_six", "fifty_seven", "fifty_eight", "fifty_nine", "sixty", "sixty_one", "sixty_two", "sixty_three", "sixty_four", "sixty_five", "sixty_six", "sixty_seven", "sixty_eight", "sixty_nine", "seventy", "seventy_one", "seventy_two", "seventy_three", "seventy_four", "seventy_five", "seventy_six", "seventy_seven", "seventy_eight", "seventy_nine", "eighty", "eighty_one", "eighty_two", "eighty_three", "eighty_four", "eighty_five", "eighty_six", "eighty_seven", "eighty_eight", "eighty_nine", "ninety", "ninety_one", "ninety_two", "ninety_three", "ninety_four", "ninety_five", "ninety_six", "ninety_seven", "ninety_eight", "ninety_nine", "one_hundred", "one_hundred_and_one", "one_hundred_and_two", "one_hundred_and_three", "one_hundred_and_four", "one_hundred_and_five", "one_hundred_and_six", "one_hundred_and_seven", "one_hundred_and_eight", "one_hundred_and_nine", "one_hundred_and_ten", "one_hundred_and_eleven", "one_hundred_and_twelve", "one_hundred_and_thirteen", "one_hundred_and_fourteen", "one_hundred_and_fifteen", "one_hundred_and_sixteen", "one_hundred_and_seventeen", "one_hundred_and_eighteen", "one_hundred_and_nineteen", "one_hundred_and_twenty", "one_hundred_and_twenty_one", "one_hundred_and_twenty_two", "one_hundred_and_twenty_three", "one_hundred_and_twenty_four", "one_hundred_and_twenty_five", "one_hundred_and_twenty_six", "one_hundred_and_twenty_seven", "one_hundred_and_twenty_eight", "one_hundred_and_twenty_nine", "one_hundred_and_thirty", "one_hundred_and_thirty_one", "one_hundred_and_thirty_two", "one_hundred_and_thirty_three", "one_hundred_and_thirty_four", "one_hundred_and_thirty_five", "one_hundred_and_thirty_six", "one_hundred_and_thirty_seven", "one_hundred_and_thirty_eight", "one_hundred_and_thirty_nine", "one_hundred_and_forty", "one_hundred_and_forty_one", "one_hundred_and_forty_two", "one_hundred_and_forty_three", "one_hundred_and_forty_four", "one_hundred_and_forty_five", "one_hundred_and_forty_six", "one_hundred_and_forty_seven", "one_hundred_and_forty_eight", "one_hundred_and_forty_nine", "one_hundred_and_fifty"]
+        var numWordDict = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven', 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen', 16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen', 20: 'twenty', 21: 'twenty_one', 22: 'twenty_two', 23: 'twenty_three', 24: 'twenty_four', 25: 'twenty_five', 26: 'twenty_six', 27: 'twenty_seven', 28: 'twenty_eight', 29: 'twenty_nine', 30: 'thirty', 31: 'thirty_one', 32: 'thirty_two', 33: 'thirty_three', 34: 'thirty_four', 35: 'thirty_five', 36: 'thirty_six', 37: 'thirty_seven', 38: 'thirty_eight', 39: 'thirty_nine', 40: 'forty', 50: 'fifty', 51: 'fifty_one', 52: 'fifty_two', 53: 'fifty_three', 54: 'fifty_four', 55: 'fifty_five', 56: 'fifty_six', 57: 'fifty_seven', 58: 'fifty_eight', 59: 'fifty_nine', 60: 'sixty', 61: 'sixty_one', 62: 'sixty_two', 63: 'sixty_three', 64: 'sixty_four', 65: 'sixty_five', 66: 'sixty_six', 67: 'sixty_seven', 68: 'sixty_eight', 69: 'sixty_nine', 70: 'seventy', 71: 'seventy_one', 72: 'seventy_two', 73: 'seventy_three', 74: 'seventy_four', 75: 'seventy_five', 76: 'seventy_six', 77: 'seventy_seven', 78: 'seventy_eight', 79: 'seventy_nine', 80: 'eighty', 81: 'eighty_one', 82: 'eighty_two', 83: 'eighty_three', 84: 'eighty_four', 85: 'eighty_five', 86: 'eighty_six', 87: 'eighty_seven', 88: 'eighty_eight', 89: 'eighty_nine', 90: 'ninety', 91: 'ninety_one', 92: 'ninety_two', 93: 'ninety_three', 94: 'ninety_four', 95: 'ninety_five', 96: 'ninety_six', 97: 'ninety_seven', 98: 'ninety_eight', 99: 'ninety_nine', 100: 'one_hundred', 101: 'one_hundred_and_one', 102: 'one_hundred_and_two', 103: 'one_hundred_and_three', 104: 'one_hundred_and_four', 105: 'one_hundred_and_five', 106: 'one_hundred_and_six', 107: 'one_hundred_and_seven', 108: 'one_hundred_and_eight', 109: 'one_hundred_and_nine', 110: 'one_hundred_and_ten', 111: 'one_hundred_and_eleven', 112: 'one_hundred_and_twelve', 113: 'one_hundred_and_thirteen', 114: 'one_hundred_and_fourteen', 115: 'one_hundred_and_fifteen', 116: 'one_hundred_and_sixteen', 117: 'one_hundred_and_seventeen', 118: 'one_hundred_and_eighteen', 119: 'one_hundred_and_nineteen', 120: 'one_hundred_and_twenty', 121: 'one_hundred_and_twenty_one', 122: 'one_hundred_and_twenty_two', 123: 'one_hundred_and_twenty_three', 124: 'one_hundred_and_twenty_four', 125: 'one_hundred_and_twenty_five', 126: 'one_hundred_and_twenty_six', 127: 'one_hundred_and_twenty_seven', 128: 'one_hundred_and_twenty_eight', 129: 'one_hundred_and_twenty_nine', 130: 'one_hundred_and_thirty', 131: 'one_hundred_and_thirty_one', 132: 'one_hundred_and_thirty_two', 133: 'one_hundred_and_thirty_three', 134: 'one_hundred_and_thirty_four', 135: 'one_hundred_and_thirty_five', 136: 'one_hundred_and_thirty_six', 137: 'one_hundred_and_thirty_seven', 138: 'one_hundred_and_thirty_eight', 139: 'one_hundred_and_thirty_nine', 140: 'one_hundred_and_forty', 141: 'one_hundred_and_forty_one', 142: 'one_hundred_and_forty_two', 143: 'one_hundred_and_forty_three', 144: 'one_hundred_and_forty_four', 145: 'one_hundred_and_forty_five', 146: 'one_hundred_and_forty_six', 147: 'one_hundred_and_forty_seven', 148: 'one_hundred_and_forty_eight', 149: 'one_hundred_and_forty_nine', 150: 'one_hundred_and_fifty' }        
+        // Generate list of 20 random digits that will select holds to be classified
+       
+        // Create array of twenty random holds
+        var idx = [];
+        for (var j = 0; j < 20; j++) {
+            idx.push(Math.floor(Math.random() * 140) + 0)
+        }
+        console.log(idx)
+
+        // Loop over array and make a form element for each hold within the div element
+        $(document).ready(function (list) {
+            for (var i = 0; i < idx.length; i++) {
+                // retrieve mapped index 
+                var randHoldIdx = idx[i]
+                // build path to hold image
+                var holdPath = files[randHoldIdx]
+                var numb = holdPath.match(/\d/g);
+                numb = numb.join("");
+                var colName = numWordDict[numb]
+
+
+                // Form element contents will be appended into the div element with id = form_submit
+                $("#form_submit").prepend(
+                    //  html form skeleton for users to select jug,pinch, crimp, pocket or undercling from radio button
+                    //  options
+                    "<input type='radio' name = " +colName + " class=" + String(colName) +" value=1>Jug<br>" +
+                    "<input type='radio' name = " + colName + " class=" + String(colName) +" value=2>Pinch<br>" +
+                    "<input type='radio'name = " +colName + " class=" + String(colName) +" value=3>Crimp<br>"+
+                    "<input type='radio' name = " +colName + " class=" + String(colName) +" value=4>Pocket<br>"+
+                    "<input type='radio' name = " +colName + " class=" + String(colName) +" value=5>Undercling"+
+                    // image of climbing hold in question with coordinates to position on moonboard
+                    "<div><img src=labelled_imgs/" +String(holdPath) +" alt='selected hold'></div>");
+                }
+                
+            });
+    </script>
+
+    <!-- prevent default AJACX proptocol and send responce to google sheets script.-->
+    <script>
+                const form = document.forms["submit_to_sheets"]
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbyhMLuTGNkaNOxeNCOx_t1ERThZT8VEYDcMmiQhj773kIrUuRA/exec'
+                    form.addEventListener('submit', e => {
+                    e.preventDefault();
+                    fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                    // Check for success or failure. POST method will not automaticlaly throw error
+                        .then(response => console.log('Success!', response))
+                        .catch(error => console.error('Error!', error.message))
+        })
+        $("#form_submit").append("<button type='submit' style = 'width: 20em;  height: 2em;' >Submit!</button>");
+   </script>
+
+    <div class="moonboard">
+        <!--Image of full moonboard-->
+        <img src="../mb_2016_s.JPG">
+    </div>
+</body>
+</html>
